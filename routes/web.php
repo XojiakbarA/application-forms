@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::middleware(['auth'])->group(function () {
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    Route::get('/', [MainController::class, 'index'])->name('dashboard');
+    Route::post('app/create', [ApplicationController::class, 'create'])->name('app/create');
+
+});
 
 require __DIR__.'/auth.php';
