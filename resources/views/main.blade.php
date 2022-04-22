@@ -3,7 +3,7 @@
             @if (session('status'))
                 <div class="text-sm">{{ session('status') }}</div>
             @endif
-            <form method="POST" action="{{ route('app/create') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('apps.create') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="my-3">
                     <x-label for="subject" :value="__('Subject')" />
