@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,5 +46,17 @@ class User extends Authenticatable
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }
+
+    public function canSendApplication()
+    {
+        $latest = $this->applications()->latest()->first();
+
+        if ($latest) :
+            $diff = now()->diffInMinutes($latest->created_at);
+            return $diff > 24*60;
+        else :
+            return true;
+        endif;
     }
 }
