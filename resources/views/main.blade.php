@@ -1,5 +1,8 @@
 <x-app-layout>
         <div class="w-96 my-20 mx-auto p-6 bg-white shadow-sm sm:rounded-lg">
+            @if (session('status'))
+                <div class="text-sm">{{ session('status') }}</div>
+            @endif
             <form method="POST" action="{{ route('app/create') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="my-3">

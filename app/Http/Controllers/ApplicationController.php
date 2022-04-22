@@ -3,14 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApplicationRequest;
-use Illuminate\Http\Request;
+use App\Services\UserService;
 
 class ApplicationController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function create(ApplicationRequest $request)
     {
-        $data = $request->validated();
+        $created = $this->userService->createApplication($request);
 
-        return $data;
+        if ($created) :
+            return redirect('/')->with('status', 'Your application has been successfully sent!');
+        else :
+            return redirect('/')->with('status', 'Application not sent, please try again later.');
+        endif;
     }
 }
